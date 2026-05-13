@@ -50,6 +50,7 @@ h3,
 .kicker,
 .btn,
 .mobile-actions a,
+.mobile-actions button,
 .gallery-card span,
 .menu-eyebrow {
   font-family: "Anton", Impact, sans-serif;
@@ -123,6 +124,31 @@ p {
   line-height: 1.1;
 }
 
+.uber-eats-button {
+  margin-left: auto;
+  padding: 0.68rem 0.95rem;
+  color: #fff;
+  background: #101010;
+  border: 2px solid #06c167;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  flex: 0 0 auto;
+  box-shadow: 0 10px 22px rgba(6, 193, 103, 0.2);
+}
+
+.uber-eats-button strong {
+  color: #06c167;
+  font-weight: 900;
+}
+
 .menu-toggle {
   width: 48px;
   height: 48px;
@@ -143,6 +169,16 @@ p {
   display: block;
   background: #fff;
   border-radius: 99px;
+}
+
+@media (max-width: 420px) {
+  .brand span {
+    display: none;
+  }
+
+  .uber-eats-button {
+    padding-inline: 0.82rem;
+  }
 }
 
 .site-menu[hidden] {
@@ -292,6 +328,13 @@ p {
 .btn-ghost-light {
   color: #fff;
   border-color: rgba(255, 255, 255, 0.82);
+}
+
+.btn-uber-eats {
+  color: #fff;
+  background: #06c167;
+  border-color: #06c167;
+  font-weight: 900;
 }
 
 .btn-primary {
@@ -662,13 +705,17 @@ p {
   backdrop-filter: blur(10px);
 }
 
-.mobile-actions a {
+.mobile-actions a,
+.mobile-actions button {
   min-width: 0;
+  border: 0;
+  background: transparent;
   padding: 0.82rem 0.15rem max(0.85rem, env(safe-area-inset-bottom));
   color: var(--brand);
   text-align: center;
   text-decoration: none;
   font-size: 0.82rem;
+  cursor: pointer;
 }
 
 .site-footer {
