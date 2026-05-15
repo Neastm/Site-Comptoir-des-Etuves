@@ -2,32 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://example.com/</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
   <url>
     <loc>https://example.com/wraps.html</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
   <url>
     <loc>https://example.com/sandwichs-chauds.html</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
   <url>
     <loc>https://example.com/sandwichs-froids.html</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
   <url>
     <loc>https://example.com/burgers.html</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
   <url>
     <loc>https://example.com/salades.html</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
   <url>
     <loc>https://example.com/americains.html</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
   <url>
     <loc>https://example.com/assiettes.html</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
   <url>
     <loc>https://example.com/boissons.html</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
   <url>
     <loc>https://example.com/desserts.html</loc>
+    <lastmod>2026-05-17</lastmod>
   </url>
 </urlset>

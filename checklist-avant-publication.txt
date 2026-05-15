@@ -1,0 +1,14 @@
+Checklist avant publication
+===========================
+
+- Toutes les URLs SEO pointent encore vers https://example.com/ : canonical, sitemap, robots, Open Graph. A corriger imperativement avant mise en ligne avec le vrai domaine.
+
+- Les images sont beaucoup trop lourdes : la home charge environ 50 Mo d'images potentielles. C'est enorme pour Google et mobile. Prevoir une conversion en WebP/AVIF, des tailles adaptees et du lazy-loading.
+
+- Le sitemap est minimal : pas de lastmod, et pas encore le vrai domaine. Ajouter les dates de modification et remplacer example.com par le domaine final.
+
+- Modifier les lastmod du sitemap en fonction des nouvelles URLs finales et de la vraie date de derniere modification/publication.
+
+- Pas de preuve locale visible : avis Google, lien Google Business Profile, photos du lieu, mentions "rue des Etuves / Comedie / Ecusson". Connecter et optimiser la fiche Google de l'entreprise.
+
+- Enrichir le schema local avant publication : ajouter geo, hasMap, priceRange, sameAs, menu et openingHoursSpecification avec les informations finales de l'entreprise.
