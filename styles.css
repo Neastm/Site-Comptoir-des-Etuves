@@ -334,7 +334,7 @@ p {
   color: #fff;
   background: #06c167;
   border-color: #06c167;
-  font-weight: 900;
+  font-weight: 500;
 }
 
 .btn-primary {
@@ -378,8 +378,30 @@ p {
   overflow: hidden;
 }
 
+.category-viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.category-viewport.is-dragging {
+  cursor: grabbing;
+}
+
 .category-scroll:hover {
   animation-play-state: paused;
+}
+
+.category-viewport.is-dragging .category-scroll {
+  animation-play-state: paused;
+}
+
+.category-viewport::-webkit-scrollbar {
+  display: none;
 }
 
 .category-scroll a {

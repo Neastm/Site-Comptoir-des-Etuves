@@ -1,4 +1,4 @@
-﻿const REVIEWS_INTERVAL_MS = 9000;
+const REVIEWS_INTERVAL_MS = 9000;
 
 const REVIEWS_DATA = [
   {
@@ -85,6 +85,63 @@ const REVIEWS_DATA = [
   track.innerHTML = [...REVIEWS_DATA, ...REVIEWS_DATA].map(renderCard).join("");
 })();
 
+(function initCategoryCarouselDrag() {
+  const viewport = document.querySelector(".category-viewport");
+  const track = viewport?.querySelector(".category-scroll");
+  if (!viewport || !track) return;
+
+  let pointerId = null;
+  let startX = 0;
+  let startScrollLeft = 0;
+  let hasDragged = false;
+  let suppressClick = false;
+
+  const stopDrag = () => {
+    pointerId = null;
+    viewport.classList.remove("is-dragging");
+  };
+
+  viewport.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) return;
+
+    pointerId = event.pointerId;
+    startX = event.clientX;
+    startScrollLeft = viewport.scrollLeft;
+    hasDragged = false;
+    viewport.classList.add("is-dragging");
+    viewport.setPointerCapture(pointerId);
+  });
+
+  viewport.addEventListener("pointermove", (event) => {
+    if (event.pointerId !== pointerId) return;
+
+    const distance = event.clientX - startX;
+    if (Math.abs(distance) > 6) {
+      hasDragged = true;
+      suppressClick = true;
+    }
+
+    viewport.scrollLeft = startScrollLeft - distance;
+  });
+
+  viewport.addEventListener("pointerup", (event) => {
+    if (event.pointerId !== pointerId) return;
+    stopDrag();
+  });
+
+  viewport.addEventListener("pointercancel", stopDrag);
+  viewport.addEventListener(
+    "click",
+    (event) => {
+      if (!suppressClick) return;
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClick = false;
+    },
+    true
+  );
+})();
+
 (function initProductDetails() {
   const cards = Array.from(document.querySelectorAll(".product-card"));
   if (!cards.length) return;
@@ -92,7 +149,7 @@ const REVIEWS_DATA = [
   const menuPriceByPage = {
     "wraps.html": "Menu frites + boisson : 11,90 EUR",
     "sandwichs-chauds.html": "Menu frites + boisson : 13,90 EUR",
-    "sandwichs-froids.html": "Menu : prix sur demande",
+    "tacos.html": "Menu frites + boisson : +2,50 EUR",
     "burgers.html": "Menu : prix sur demande",
     "salades.html": "Menu : prix sur demande",
     "americains.html": "Menu boisson : 11,00 EUR",
