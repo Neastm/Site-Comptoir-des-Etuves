@@ -2,25 +2,25 @@ const REVIEWS_INTERVAL_MS = 9000;
 
 const REVIEWS_DATA = [
   {
-    author: "Ines M.",
+    author: "Clément",
     rating: 5,
     text: "Service rapide, portions généreuses et super accueil. Je recommande les wraps.",
     date: "il y a 2 semaines"
   },
   {
-    author: "Samir K.",
+    author: "Julie",
     rating: 5,
     text: "Très bon snack en centre-ville. Les formules sont claires et le rapport qualité/prix est top.",
     date: "il y a 1 mois"
   },
   {
-    author: "Laura T.",
+    author: "Andreas",
     rating: 4,
     text: "Burgers bien garnis et desserts gourmands. Pratique pour commander vite.",
     date: "il y a 3 semaines"
   },
   {
-    author: "Nicolas R.",
+    author: "Xavier",
     rating: 5,
     text: "J'aime beaucoup l'ambiance et la rapidité de service. Bon plan du quartier.",
     date: "il y a 1 semaine"
@@ -147,28 +147,21 @@ const REVIEWS_DATA = [
   if (!cards.length) return;
 
   const menuPriceByPage = {
-    "wraps.html": "Menu frites + boisson : 11,90 EUR",
-    "sandwichs-chauds.html": "Menu frites + boisson : 13,90 EUR",
-    "tacos.html": "Menu frites + boisson : +2,50 EUR",
-    "burgers.html": "Menu : prix sur demande",
-    "salades.html": "Menu : prix sur demande",
-    "americains.html": "Menu boisson : 11,00 EUR",
-    "assiettes.html": "Menu : prix sur demande",
-    "boissons.html": "Menu : selon formule",
-    "desserts.html": "Menu : selon formule"
+    "tacos.html": "Menu frites + boisson : +2,50 EUR"
   };
   const pageName = window.location.pathname.split("/").pop() || "index.html";
   const menuPrice = menuPriceByPage[pageName];
 
-  if (menuPrice) {
-    cards.forEach((card) => {
+  cards.forEach((card) => {
+    const cardMenuPrice = card.dataset.menuPrice || menuPrice;
+    if (cardMenuPrice) {
       if (card.querySelector(".menu-price")) return;
       const node = document.createElement("p");
       node.className = "menu-price";
-      node.textContent = menuPrice;
+      node.textContent = cardMenuPrice;
       card.appendChild(node);
-    });
-  }
+    }
+  });
 
   const modal = document.createElement("section");
   modal.className = "product-modal";
@@ -207,7 +200,18 @@ const REVIEWS_DATA = [
     title.textContent = cardTitle.textContent.trim();
     price.textContent = cardPrice ? cardPrice.textContent.trim() : "Prix sur demande";
     price.hidden = !price.textContent;
-    detail.textContent = "Pain ou base préparée à la commande, garniture généreuse, sauces au choix selon disponibilité.";
+    const menuText = card.querySelector(".menu-price")?.textContent.trim();
+    const detailText = card.dataset.detail?.trim();
+    const extrasText = card.dataset.extras?.trim();
+    const detailItems = [];
+
+    if (menuText) detailItems.push(menuText);
+    if (detailText) detailItems.push(detailText);
+    if (extrasText) detailItems.push(`Extras : ${extrasText}`);
+
+    detail.textContent = detailItems.length
+      ? detailItems.join("\n")
+      : "Pain ou base préparée à la commande, garniture généreuse, sauces au choix selon disponibilité.";
 
     if (cardImage) {
       image.src = cardImage.getAttribute("src");

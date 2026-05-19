@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Les visuels arrivent bientot</title>
+  <desc id="desc">Fond rouge Comptoir des Etuves avec smiley clin d'oeil blanc et texte.</desc>
+  <rect width="1200" height="900" fill="#d61d2c"/>
+  <g fill="#fffaf4">
+    <circle cx="450" cy="318" r="34"/>
+    <rect x="670" y="292" width="128" height="34" rx="17" transform="rotate(-8 734 309)"/>
+    <path d="M397 426c67 88 210 139 356 69 21-10 46-1 56 20 10 22 1 47-21 57-184 87-370 20-459-96-14-18-11-45 7-59 18-14 45-10 61 9z"/>
+  </g>
+  <text x="600" y="770" fill="#fffaf4" font-family="Anton, Impact, Arial Black, sans-serif" font-size="72" text-anchor="middle" letter-spacing="0">
+    LES VISUELS ARRIVENT BIENTOT
+  </text>
+</svg>

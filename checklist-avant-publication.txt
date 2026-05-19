@@ -11,4 +11,10 @@ Checklist avant publication
 
 - Pas de preuve locale visible : avis Google, lien Google Business Profile, photos du lieu, mentions "rue des Etuves / Comedie / Ecusson". Connecter et optimiser la fiche Google de l'entreprise.
 
+- Creer la fiche Google de l'entreprise si elle n'existe pas encore, puis la verifier et la completer avant publication.
+
+- Choisir et acheter le nom de domaine final, puis remplacer toutes les references a example.com par ce domaine.
+
 - Enrichir le schema local avant publication : ajouter geo, hasMap, priceRange, sameAs, menu et openingHoursSpecification avec les informations finales de l'entreprise.
+
+- Demander et confirmer les vrais prix des tacos et des menus tacos avant mise en ligne.

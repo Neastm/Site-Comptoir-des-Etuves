@@ -704,6 +704,7 @@ p {
   color: var(--text);
   font-size: 0.92rem;
   font-weight: 600;
+  white-space: pre-line;
 }
 
 .cta-band {
