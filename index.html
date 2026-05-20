@@ -11,11 +11,11 @@
   <meta property="og:title" content="Le Comptoir des Étuves | Snack généreux à Montpellier centre-ville" />
   <meta property="og:description" content="Snack généreux au centre-ville de Montpellier, proche de la Comédie : sandwichs chauds, américains, burgers et wraps sur place, à emporter ou en livraison Uber Eats." />
   <meta property="og:url" content="https://example.com/" />
-  <meta property="og:image" content="https://example.com/images/burger-big.png" />
+  <meta property="og:image" content="https://example.com/images/Hero.webp" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Le Comptoir des Étuves | Snack généreux à Montpellier centre-ville" />
   <meta name="twitter:description" content="Snack généreux au centre-ville de Montpellier, proche de la Comédie : sandwichs chauds, américains, burgers et wraps sur place, à emporter ou en livraison Uber Eats." />
-  <meta name="twitter:image" content="https://example.com/images/burger-big.png" />
+  <meta name="twitter:image" content="https://example.com/images/Hero.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -27,7 +27,7 @@
     "@id": "https://example.com/#restaurant",
     "name": "Le Comptoir des Étuves",
     "url": "https://example.com/",
-    "image": "https://example.com/images/burger-big.png",
+    "image": "https://example.com/images/Hero.webp",
     "description": "Snack généreux au centre-ville de Montpellier, proche de la Comédie : sandwichs chauds, américains, burgers et wraps sur place, à emporter ou en livraison Uber Eats.",
     "telephone": "+33783751334",
     "address": {
@@ -37,12 +37,45 @@
       "addressLocality": "Montpellier",
       "addressCountry": "FR"
     },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 43.6071728,
+      "longitude": 3.877323
+    },
+    "hasMap": "https://maps.app.goo.gl/zL9TgHPNbq3qR7Xw9",
+    "priceRange": "€",
+    "sameAs": [
+      "https://maps.app.goo.gl/zL9TgHPNbq3qR7Xw9",
+      "https://www.ubereats.com/fr/store/comptoir-des-etuves/ZKupSNvwXZqzl_tochM5Iw"
+    ],
     "areaServed": [
       "Montpellier centre-ville",
       "Place de la Comédie",
       "Rue des Étuves"
     ],
     "openingHours": "Mo-We 09:00-19:00, Th-Sa 09:00-21:00",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "09:00",
+        "closes": "21:00"
+      }
+    ],
     "servesCuisine": [
       "Wraps",
       "Sandwichs",
@@ -52,14 +85,67 @@
       "Boissons",
       "Desserts"
     ],
-    "hasMenu": "https://example.com/wraps.html"
+    "menu": "https://example.com/#menu",
+    "hasMenu": {
+      "@type": "Menu",
+      "@id": "https://example.com/#menu",
+      "name": "Carte du Comptoir des Étuves",
+      "url": "https://example.com/",
+      "hasMenuSection": [
+        {
+          "@type": "MenuSection",
+          "name": "Wraps",
+          "url": "https://example.com/wraps.html"
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Sandwichs chauds",
+          "url": "https://example.com/sandwichs-chauds.html"
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Tacos",
+          "url": "https://example.com/tacos.html"
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Burgers",
+          "url": "https://example.com/burgers.html"
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Salades",
+          "url": "https://example.com/salades.html"
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Américains",
+          "url": "https://example.com/americains.html"
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Assiettes",
+          "url": "https://example.com/assiettes.html"
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Boissons",
+          "url": "https://example.com/boissons.html"
+        },
+        {
+          "@type": "MenuSection",
+          "name": "Desserts",
+          "url": "https://example.com/desserts.html"
+        }
+      ]
+    }
   }
   </script>
 </head>
 <body class="home">
   <header class="topbar">
     <a class="brand" href="index.html" aria-label="Accueil Le Comptoir des Étuves">
-      <img src="images/logo.png" alt="Logo Le Comptoir des Étuves" />
+      <img src="images/logo.webp" alt="Logo Le Comptoir des Étuves" />
       <span>Le Comptoir des Étuves</span>
     </a>
     <a class="uber-eats-button" href="https://www.ubereats.com/fr/store/comptoir-des-etuves/ZKupSNvwXZqzl_tochM5Iw?msockid=33f06aeddd2b65fa2c007c70dc0e6430" target="_blank" rel="noopener"><span>Uber</span> <strong>EATS</strong></a>
@@ -98,7 +184,7 @@
         </div>
       </div>
       <figure class="hero-product">
-        <img src="images/Hero.jpg" alt="Burger gourmand du Comptoir des Étuves" />
+        <img src="images/Hero.webp" alt="Burger gourmand du Comptoir des Étuves" />
       </figure>
     </section>
 
@@ -107,24 +193,24 @@
         <h2>Nos best-sellers</h2>
         <div class="category-viewport">
           <div class="category-scroll">
-            <a href="wraps.html"><img src="images/Wrap%20Chicken%20Bacon.jpg" alt="Wraps du Comptoir des Étuves" />Wraps</a>
-            <a href="sandwichs-chauds.html"><img src="images/Sandwich%20Crosutillant.jpg" alt="Sandwichs chauds du Comptoir des Étuves" />Sandwichs chauds</a>
-            <a href="tacos.html"><img src="images/visuels-arrivent-bientot.svg" alt="Tacos du Comptoir des Étuves" />Tacos</a>
-            <a href="burgers.html"><img src="images/Burger%20Tenders%20Bacon.jpg" alt="Burgers du Comptoir des Étuves" />Burgers</a>
-            <a href="salades.html"><img src="images/visuels-arrivent-bientot.svg" alt="Salades du Comptoir des Étuves" />Salades</a>
-            <a href="americains.html"><img src="images/visuels-arrivent-bientot.svg" alt="Américains du Comptoir des Étuves" />Américains</a>
-            <a href="assiettes.html"><img src="images/visuels-arrivent-bientot.svg" alt="Assiettes du Comptoir des Étuves" />Assiettes</a>
-            <a href="boissons.html"><img src="images/visuels-arrivent-bientot.svg" alt="Boissons du Comptoir des Étuves" />Boissons</a>
-            <a href="desserts.html"><img src="images/visuels-arrivent-bientot.svg" alt="Desserts du Comptoir des Étuves" />Desserts</a>
-            <a href="wraps.html" aria-hidden="true" tabindex="-1"><img src="images/Wrap%20Kebab.jpg" alt="" />Wraps</a>
-            <a href="sandwichs-chauds.html" aria-hidden="true" tabindex="-1"><img src="images/Sandwich%20Veggie.jpg" alt="" />Sandwichs chauds</a>
-            <a href="tacos.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.svg" alt="" />Tacos</a>
-            <a href="burgers.html" aria-hidden="true" tabindex="-1"><img src="images/Burger%20%20Montagnard.jpg" alt="" />Burgers</a>
-            <a href="salades.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.svg" alt="" />Salades</a>
-            <a href="americains.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.svg" alt="" />Américains</a>
-            <a href="assiettes.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.svg" alt="" />Assiettes</a>
-            <a href="boissons.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.svg" alt="" />Boissons</a>
-            <a href="desserts.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.svg" alt="" />Desserts</a>
+            <a href="wraps.html"><img src="images/Wrap%20Chicken%20Bacon.webp" alt="Wraps du Comptoir des Étuves" />Wraps</a>
+            <a href="sandwichs-chauds.html"><img src="images/Sandwich%20Crosutillant.webp" alt="Sandwichs chauds du Comptoir des Étuves" />Sandwichs chauds</a>
+            <a href="tacos.html"><img src="images/visuels-arrivent-bientot.webp" alt="Tacos du Comptoir des Étuves" />Tacos</a>
+            <a href="burgers.html"><img src="images/Burger%20Tenders%20Bacon.webp" alt="Burgers du Comptoir des Étuves" />Burgers</a>
+            <a href="salades.html"><img src="images/visuels-arrivent-bientot.webp" alt="Salades du Comptoir des Étuves" />Salades</a>
+            <a href="americains.html"><img src="images/visuels-arrivent-bientot.webp" alt="Américains du Comptoir des Étuves" />Américains</a>
+            <a href="assiettes.html"><img src="images/visuels-arrivent-bientot.webp" alt="Assiettes du Comptoir des Étuves" />Assiettes</a>
+            <a href="boissons.html"><img src="images/visuels-arrivent-bientot.webp" alt="Boissons du Comptoir des Étuves" />Boissons</a>
+            <a href="desserts.html"><img src="images/visuels-arrivent-bientot.webp" alt="Desserts du Comptoir des Étuves" />Desserts</a>
+            <a href="wraps.html" aria-hidden="true" tabindex="-1"><img src="images/Wrap%20Kebab.webp" alt="" />Wraps</a>
+            <a href="sandwichs-chauds.html" aria-hidden="true" tabindex="-1"><img src="images/Sandwich%20Veggie.webp" alt="" />Sandwichs chauds</a>
+            <a href="tacos.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.webp" alt="" />Tacos</a>
+            <a href="burgers.html" aria-hidden="true" tabindex="-1"><img src="images/Burger%20Montagnard.webp" alt="" />Burgers</a>
+            <a href="salades.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.webp" alt="" />Salades</a>
+            <a href="americains.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.webp" alt="" />Américains</a>
+            <a href="assiettes.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.webp" alt="" />Assiettes</a>
+            <a href="boissons.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.webp" alt="" />Boissons</a>
+            <a href="desserts.html" aria-hidden="true" tabindex="-1"><img src="images/visuels-arrivent-bientot.webp" alt="" />Desserts</a>
           </div>
         </div>
       </div>
@@ -138,13 +224,13 @@
           <p>Envie d’un burger, d’un wrap ou d’un américain sans bouger ? Commande sur Uber Eats !</p>
           <div class="cta-row">
             <a class="btn btn-light" href="tel:+33783751334">Appeler</a>
-            <a class="btn btn-ghost-light" href="https://www.google.com/maps/search/?api=1&query=13%20rue%20des%20Etuves%2C%2034000%20Montpellier" target="_blank" rel="noopener">Itinéraire</a>
+            <a class="btn btn-ghost-light" href="https://maps.app.goo.gl/zL9TgHPNbq3qR7Xw9" target="_blank" rel="noopener">Itinéraire</a>
             <a class="btn btn-uber-eats" href="https://www.ubereats.com/fr/store/comptoir-des-etuves/ZKupSNvwXZqzl_tochM5Iw?msockid=33f06aeddd2b65fa2c007c70dc0e6430" target="_blank" rel="noopener">Commander sur Uber Eats</a>
           </div>
         </div>
         <div class="stacked-images">
-          <img src="images/uber-eats-sac-comptoir.png" alt="Sac de livraison Uber Eats du Comptoir des Étuves remis au comptoir" />
-          <img src="images/Uber-eats-promo.jpg" alt="Boissons du Comptoir des Étuves" />
+          <img src="images/uber-eats-sac-comptoir.webp" alt="Sac de livraison Uber Eats du Comptoir des Étuves remis au comptoir" />
+          <img src="images/Uber-eats-promo.webp" alt="Boissons du Comptoir des Étuves" />
         </div>
       </div>
     </section>
@@ -157,7 +243,7 @@
             <h3>Adresse</h3>
             <iframe class="info-map" title="Carte du Comptoir des Étuves à Montpellier" src="https://maps.google.com/maps?hl=fr&q=13%20rue%20des%20%C3%89tuves%2C%2034000%20Montpellier&t=&z=15&ie=UTF8&iwloc=B&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             <p>13 rue des Étuves, 34000 Montpellier</p>
-            <a href="https://www.google.com/maps/search/?api=1&query=13%20rue%20des%20Etuves%2C%2034000%20Montpellier" target="_blank" rel="noopener">Tracer l'itinéraire</a>
+            <a href="https://maps.app.goo.gl/zL9TgHPNbq3qR7Xw9" target="_blank" rel="noopener">Tracer l'itinéraire</a>
           </article>
           <article>
             <h3>Téléphone</h3>
@@ -184,7 +270,7 @@
   <nav class="mobile-actions" aria-label="Actions rapides mobile">
     <button class="menu-open-btn" type="button" aria-controls="siteMenu">Menu</button>
     <a href="tel:+33783751334">Appeler</a>
-    <a href="https://www.google.com/maps/search/?api=1&query=13%20rue%20des%20Etuves%2C%2034000%20Montpellier" target="_blank" rel="noopener">Itinéraire</a>
+    <a href="https://maps.app.goo.gl/zL9TgHPNbq3qR7Xw9" target="_blank" rel="noopener">Itinéraire</a>
     <a href="https://www.ubereats.com/fr/store/comptoir-des-etuves/ZKupSNvwXZqzl_tochM5Iw?msockid=33f06aeddd2b65fa2c007c70dc0e6430" target="_blank" rel="noopener">Uber EATS</a>
   </nav>
 
