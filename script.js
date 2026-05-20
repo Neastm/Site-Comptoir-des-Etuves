@@ -147,13 +147,13 @@ const REVIEWS_DATA = [
   if (!cards.length) return;
 
   const menuPriceByPage = {
-    "tacos.html": "Menu frites + boisson : +2,50 EUR"
+    "tacos.html": "Menu frites + boisson : +4 EUR"
   };
   const pageName = window.location.pathname.split("/").pop() || "index.html";
   const menuPrice = menuPriceByPage[pageName];
 
   cards.forEach((card) => {
-    const cardMenuPrice = card.dataset.menuPrice || menuPrice;
+    const cardMenuPrice = card.hasAttribute("data-no-menu-price") ? "" : card.dataset.menuPrice || menuPrice;
     if (cardMenuPrice) {
       if (card.querySelector(".menu-price")) return;
       const node = document.createElement("p");
@@ -194,11 +194,11 @@ const REVIEWS_DATA = [
   const openModal = (card) => {
     const cardImage = card.querySelector("img");
     const cardTitle = card.querySelector("h2");
-    const cardPrice = card.querySelector("p");
+    const cardPrice = card.hasAttribute("data-no-price") ? null : card.querySelector("p");
 
     if (!cardTitle) return;
     title.textContent = cardTitle.textContent.trim();
-    price.textContent = cardPrice ? cardPrice.textContent.trim() : "Prix sur demande";
+    price.textContent = cardPrice ? cardPrice.textContent.trim() : card.hasAttribute("data-no-price") ? "" : "Prix sur demande";
     price.hidden = !price.textContent;
     const menuText = card.querySelector(".menu-price")?.textContent.trim();
     const detailText = card.dataset.detail?.trim();
