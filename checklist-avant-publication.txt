@@ -1,14 +1,6 @@
 Checklist avant publication
 ===========================
 
-- Toutes les URLs SEO pointent encore vers https://example.com/ : canonical, sitemap, robots, Open Graph. A corriger imperativement avant mise en ligne avec le vrai domaine.
-
-- Le sitemap est minimal : pas de lastmod, et pas encore le vrai domaine. Ajouter les dates de modification et remplacer example.com par le domaine final.
-
-- Modifier les lastmod du sitemap en fonction des nouvelles URLs finales et de la vraie date de derniere modification/publication.
-
 - Pas de preuve locale visible : avis Google, lien Google Business Profile, photos du lieu, mentions "rue des Etuves / Comedie / Ecusson". Connecter et optimiser la fiche Google de l'entreprise.
 
 - Creer la fiche Google de l'entreprise si elle n'existe pas encore, puis la verifier et la completer avant publication.
-
-- Choisir et acheter le nom de domaine final, puis remplacer toutes les references a example.com par ce domaine.
