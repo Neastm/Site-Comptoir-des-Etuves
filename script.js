@@ -59,6 +59,71 @@ const REVIEWS_DATA = [
   });
 })();
 
+(function initLanguagePrompt() {
+  const pageLang = document.documentElement.lang || "fr";
+  if (!pageLang.toLowerCase().startsWith("fr")) return;
+
+  const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language || "";
+  if (!browserLang || browserLang.toLowerCase().startsWith("fr")) return;
+
+  try {
+    if (sessionStorage.getItem("languagePromptDismissed") === "1") return;
+  } catch (error) {
+    // Storage can be disabled; the prompt still works without persistence.
+  }
+
+  const pageName = window.location.pathname.split("/").pop();
+  const languagePath = pageName && pageName !== "index.html" ? pageName : "";
+  const baseUrl = `${window.location.origin}/`;
+  const englishHref = new URL(`en/${languagePath}`, baseUrl).href;
+  const spanishHref = new URL(`es/${languagePath}`, baseUrl).href;
+  const isSpanishPreferred = browserLang.toLowerCase().startsWith("es");
+  const languageLinks = isSpanishPreferred
+    ? `
+        <a href="${spanishHref}" lang="es" hreflang="es"><span aria-hidden="true">🇪🇸</span> Español</a>
+        <a href="${englishHref}" lang="en" hreflang="en"><span aria-hidden="true">🇬🇧</span> English</a>
+      `
+    : `
+        <a href="${englishHref}" lang="en" hreflang="en"><span aria-hidden="true">🇬🇧</span> English</a>
+        <a href="${spanishHref}" lang="es" hreflang="es"><span aria-hidden="true">🇪🇸</span> Español</a>
+      `;
+
+  const prompt = document.createElement("section");
+  prompt.className = "language-prompt";
+  prompt.setAttribute("role", "dialog");
+  prompt.setAttribute("aria-modal", "true");
+  prompt.setAttribute("aria-labelledby", "languagePromptTitle");
+  prompt.innerHTML = `
+    <article class="language-prompt-card">
+      <h2 id="languagePromptTitle">Choose your language</h2>
+      <p>This site is available in English and Spanish. Select a version to continue.</p>
+      <div class="language-prompt-actions">
+        ${languageLinks}
+      </div>
+      <button class="language-prompt-close" type="button">Continue in French</button>
+    </article>
+  `;
+
+  const closePrompt = () => {
+    prompt.hidden = true;
+    try {
+      sessionStorage.setItem("languagePromptDismissed", "1");
+    } catch (error) {
+      // Ignore storage errors.
+    }
+  };
+
+  prompt.querySelector(".language-prompt-close").addEventListener("click", closePrompt);
+  prompt.addEventListener("click", (event) => {
+    if (event.target === prompt) closePrompt();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !prompt.hidden) closePrompt();
+  });
+
+  document.body.appendChild(prompt);
+})();
+
 (function initReviews() {
   const track = document.getElementById("reviewCarouselTrack");
   if (!track) return;
@@ -146,8 +211,47 @@ const REVIEWS_DATA = [
   const cards = Array.from(document.querySelectorAll(".product-card"));
   if (!cards.length) return;
 
+  const pageLang = document.documentElement.lang || "fr";
+  const lang = pageLang.toLowerCase().startsWith("es")
+    ? "es"
+    : pageLang.toLowerCase().startsWith("en")
+      ? "en"
+      : "fr";
+  const copyByLang = {
+    fr: {
+      closeLabel: "Fermer le detail",
+      defaultPrice: "Prix sur demande",
+      defaultDetail: "Pain ou base préparée à la commande, garniture généreuse, sauces au choix selon disponibilité.",
+      extrasPrefix: "Extras",
+      menuPriceByPage: {
+        "tacos.html": "Menu frites + boisson : +4 EUR"
+      },
+      viewDetails: (title) => `Voir le detail ${title || "du produit"}`
+    },
+    en: {
+      closeLabel: "Close details",
+      defaultPrice: "Price on request",
+      defaultDetail: "Prepared to order with generous filling and sauces to choose, depending on availability.",
+      extrasPrefix: "Extras",
+      menuPriceByPage: {
+        "tacos.html": "Fries + drink menu: +4 EUR"
+      },
+      viewDetails: (title) => `View details for ${title || "this product"}`
+    },
+    es: {
+      closeLabel: "Cerrar detalles",
+      defaultPrice: "Precio a consultar",
+      defaultDetail: "Preparado al momento con relleno generoso y salsas a elegir, segun disponibilidad.",
+      extrasPrefix: "Extras",
+      menuPriceByPage: {
+        "tacos.html": "Menu patatas + bebida: +4 EUR"
+      },
+      viewDetails: (title) => `Ver detalles de ${title || "este producto"}`
+    }
+  };
+  const copy = copyByLang[lang];
   const menuPriceByPage = {
-    "tacos.html": "Menu frites + boisson : +4 EUR"
+    "tacos.html": copy.menuPriceByPage["tacos.html"]
   };
   const pageName = window.location.pathname.split("/").pop() || "index.html";
   const menuPrice = menuPriceByPage[pageName];
@@ -172,7 +276,7 @@ const REVIEWS_DATA = [
   modal.innerHTML = `
     <div class="product-modal-backdrop" data-close-product-modal></div>
     <article class="product-modal-card">
-      <button class="product-modal-close" type="button" aria-label="Fermer le detail" data-close-product-modal>&times;</button>
+      <button class="product-modal-close" type="button" aria-label="${copy.closeLabel}" data-close-product-modal>&times;</button>
       <img class="product-modal-image" alt="" />
       <h2 id="productModalTitle"></h2>
       <p class="product-modal-price"></p>
@@ -198,7 +302,7 @@ const REVIEWS_DATA = [
 
     if (!cardTitle) return;
     title.textContent = cardTitle.textContent.trim();
-    price.textContent = cardPrice ? cardPrice.textContent.trim() : card.hasAttribute("data-no-price") ? "" : "Prix sur demande";
+    price.textContent = cardPrice ? cardPrice.textContent.trim() : card.hasAttribute("data-no-price") ? "" : copy.defaultPrice;
     price.hidden = !price.textContent;
     const menuText = card.querySelector(".menu-price")?.textContent.trim();
     const detailText = card.dataset.detail?.trim();
@@ -207,11 +311,11 @@ const REVIEWS_DATA = [
 
     if (menuText) detailItems.push(menuText);
     if (detailText) detailItems.push(detailText);
-    if (extrasText) detailItems.push(`Extras : ${extrasText}`);
+    if (extrasText) detailItems.push(`${copy.extrasPrefix} : ${extrasText}`);
 
     detail.textContent = detailItems.length
       ? detailItems.join("\n")
-      : "Pain ou base préparée à la commande, garniture généreuse, sauces au choix selon disponibilité.";
+      : copy.defaultDetail;
 
     if (cardImage) {
       image.src = cardImage.getAttribute("src");
@@ -228,7 +332,7 @@ const REVIEWS_DATA = [
   cards.forEach((card) => {
     card.setAttribute("tabindex", "0");
     card.setAttribute("role", "button");
-    card.setAttribute("aria-label", `Voir le detail ${card.querySelector("h2")?.textContent.trim() || "du produit"}`);
+    card.setAttribute("aria-label", copy.viewDetails(card.querySelector("h2")?.textContent.trim()));
     card.addEventListener("click", () => openModal(card));
     card.addEventListener("keydown", (event) => {
       if (event.key !== "Enter" && event.key !== " ") return;
