@@ -59,6 +59,101 @@ const REVIEWS_DATA = [
   });
 })();
 
+(function initMenuAttentionAnimation() {
+  const toggle = document.querySelector(".menu-toggle");
+  if (!toggle) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) {
+    return;
+  }
+
+  const label = document.createElement("div");
+  label.className = "menu-falling-text";
+  label.setAttribute("aria-hidden", "true");
+
+  const fallSettings = [
+    { x: "-18px", y: "86px", r: "-18deg" },
+    { x: "-4px", y: "104px", r: "14deg" },
+    { x: "12px", y: "92px", r: "-10deg" },
+    { x: "26px", y: "110px", r: "22deg" }
+  ];
+
+  "MENU".split("").forEach((letter, index) => {
+    const span = document.createElement("span");
+    const settings = fallSettings[index];
+    span.textContent = letter;
+    span.style.setProperty("--letter-index", index);
+    span.style.setProperty("--fall-x", settings.x);
+    span.style.setProperty("--fall-y", settings.y);
+    span.style.setProperty("--fall-rotate", settings.r);
+    label.append(span);
+  });
+
+  document.body.append(label);
+
+  let hasDropped = false;
+  let dropTimer;
+
+  const positionLabel = () => {
+    const toggleBounds = toggle.getBoundingClientRect();
+    const hero = document.querySelector(".home-hero, .product-hero, .page-hero");
+    const heroBounds = hero?.getBoundingClientRect();
+    const labelBounds = label.getBoundingClientRect();
+    const safeGap = 18;
+    const fallbackTop = toggleBounds.bottom + 34;
+    const startTop = heroBounds
+      ? heroBounds.top + Math.min(72, Math.max(34, heroBounds.height * 0.12))
+      : fallbackTop;
+    const startLeft = Math.min(
+      window.innerWidth - labelBounds.width - safeGap,
+      Math.max(safeGap, toggleBounds.right - labelBounds.width - 14)
+    );
+
+    label.style.left = `${startLeft}px`;
+    label.style.top = `${Math.max(toggleBounds.bottom + 12, startTop)}px`;
+  };
+
+  const finishAnimation = () => {
+    label.remove();
+    window.setTimeout(() => {
+      toggle.classList.remove("menu-toggle--is-absorbing");
+    }, 360);
+  };
+
+  const setAbsorbTargets = () => {
+    const toggleBounds = toggle.getBoundingClientRect();
+    const targetX = toggleBounds.left + toggleBounds.width / 2;
+    const targetY = toggleBounds.top + toggleBounds.height / 2;
+
+    label.querySelectorAll("span").forEach((span) => {
+      const letterBounds = span.getBoundingClientRect();
+      span.style.setProperty("--suck-x", `${targetX - (letterBounds.left + letterBounds.width / 2)}px`);
+      span.style.setProperty("--suck-y", `${targetY - (letterBounds.top + letterBounds.height / 2)}px`);
+    });
+  };
+
+  const dropLetters = () => {
+    if (hasDropped) return;
+    hasDropped = true;
+    window.clearTimeout(dropTimer);
+    setAbsorbTargets();
+    toggle.classList.add("menu-toggle--is-absorbing");
+    label.classList.add("is-dropping");
+    window.removeEventListener("resize", positionLabel);
+    window.removeEventListener("scroll", positionLabel);
+    window.removeEventListener("scroll", dropLetters);
+    window.setTimeout(finishAnimation, 1320);
+  };
+
+  positionLabel();
+  requestAnimationFrame(() => label.classList.add("is-visible"));
+  window.addEventListener("resize", positionLabel);
+  window.addEventListener("scroll", positionLabel, { passive: true });
+  window.addEventListener("scroll", dropLetters, { once: true, passive: true });
+  dropTimer = window.setTimeout(dropLetters, 3000);
+})();
+
 (function initLanguagePrompt() {
   const pageLang = document.documentElement.lang || "fr";
   if (!pageLang.toLowerCase().startsWith("fr")) return;
