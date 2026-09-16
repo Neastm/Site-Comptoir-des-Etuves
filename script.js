@@ -1,31 +1,29 @@
 const REVIEWS_INTERVAL_MS = 9000;
 
-const REVIEWS_DATA = [
-  {
-    author: "Clément",
-    rating: 5,
-    text: "Service rapide, portions généreuses et super accueil. Je recommande les wraps.",
-    date: "il y a 2 semaines"
-  },
-  {
-    author: "Julie",
-    rating: 5,
-    text: "Très bon snack en centre-ville. Les formules sont claires et le rapport qualité/prix est top.",
-    date: "il y a 1 mois"
-  },
-  {
-    author: "Andreas",
-    rating: 4,
-    text: "Burgers bien garnis et desserts gourmands. Pratique pour commander vite.",
-    date: "il y a 3 semaines"
-  },
-  {
-    author: "Xavier",
-    rating: 5,
-    text: "J'aime beaucoup l'ambiance et la rapidité de service. Bon plan du quartier.",
-    date: "il y a 1 semaine"
-  }
-];
+const REVIEWS_DATA_BY_LANG = {
+  fr: [
+    { author: "Clément", rating: 5, text: "Service rapide, portions généreuses et super accueil. Je recommande les wraps.", date: "il y a 2 semaines" },
+    { author: "Julie", rating: 5, text: "Très bon snack en centre-ville. Les formules sont claires et le rapport qualité/prix est top.", date: "il y a 1 mois" },
+    { author: "Andreas", rating: 4, text: "Burgers bien garnis et desserts gourmands. Pratique pour commander vite.", date: "il y a 3 semaines" },
+    { author: "Xavier", rating: 5, text: "J'aime beaucoup l'ambiance et la rapidité de service. Bon plan du quartier.", date: "il y a 1 semaine" }
+  ],
+  en: [
+    { author: "Clément", rating: 5, text: "Fast service, generous portions and a warm welcome. I recommend the wraps.", date: "2 weeks ago" },
+    { author: "Julie", rating: 5, text: "A great snack restaurant in the city centre. Clear meal deals and excellent value.", date: "1 month ago" },
+    { author: "Andreas", rating: 4, text: "Generously filled burgers and indulgent desserts. Convenient when you want to order quickly.", date: "3 weeks ago" },
+    { author: "Xavier", rating: 5, text: "I really like the atmosphere and the fast service. A great neighbourhood spot.", date: "1 week ago" }
+  ],
+  es: [
+    { author: "Clément", rating: 5, text: "Servicio rápido, porciones generosas y una gran acogida. Recomiendo los wraps.", date: "hace 2 semanas" },
+    { author: "Julie", rating: 5, text: "Muy buen snack en el centro. Los menús son claros y la relación calidad-precio es excelente.", date: "hace 1 mes" },
+    { author: "Andreas", rating: 4, text: "Hamburguesas generosas y postres deliciosos. Muy práctico para pedir rápidamente.", date: "hace 3 semanas" },
+    { author: "Xavier", rating: 5, text: "Me gustan mucho el ambiente y la rapidez del servicio. Un buen sitio del barrio.", date: "hace 1 semana" }
+  ]
+};
+
+const reviewsPageLanguage = (document.documentElement.lang || "fr").toLowerCase();
+const reviewsLanguage = reviewsPageLanguage.startsWith("es") ? "es" : reviewsPageLanguage.startsWith("en") ? "en" : "fr";
+const REVIEWS_DATA = REVIEWS_DATA_BY_LANG[reviewsLanguage];
 
 (function initMenu() {
   const menu = document.getElementById("siteMenu");
@@ -51,172 +49,15 @@ const REVIEWS_DATA = [
     button.addEventListener("click", openMenu);
   });
   close?.addEventListener("click", closeMenu);
+  menu.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
   menu.addEventListener("click", (event) => {
     if (event.target === menu) closeMenu();
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !menu.hidden) closeMenu();
   });
-})();
-
-(function initMenuAttentionAnimation() {
-  const toggle = document.querySelector(".menu-toggle");
-  if (!toggle) return;
-
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) {
-    return;
-  }
-
-  const label = document.createElement("div");
-  label.className = "menu-falling-text";
-  label.setAttribute("aria-hidden", "true");
-
-  const fallSettings = [
-    { x: "-18px", y: "86px", r: "-18deg" },
-    { x: "-4px", y: "104px", r: "14deg" },
-    { x: "12px", y: "92px", r: "-10deg" },
-    { x: "26px", y: "110px", r: "22deg" }
-  ];
-
-  "MENU".split("").forEach((letter, index) => {
-    const span = document.createElement("span");
-    const settings = fallSettings[index];
-    span.textContent = letter;
-    span.style.setProperty("--letter-index", index);
-    span.style.setProperty("--fall-x", settings.x);
-    span.style.setProperty("--fall-y", settings.y);
-    span.style.setProperty("--fall-rotate", settings.r);
-    label.append(span);
-  });
-
-  document.body.append(label);
-
-  let hasDropped = false;
-  let dropTimer;
-
-  const positionLabel = () => {
-    const toggleBounds = toggle.getBoundingClientRect();
-    const hero = document.querySelector(".home-hero, .product-hero, .page-hero");
-    const heroBounds = hero?.getBoundingClientRect();
-    const labelBounds = label.getBoundingClientRect();
-    const safeGap = 18;
-    const fallbackTop = toggleBounds.bottom + 34;
-    const startTop = heroBounds
-      ? heroBounds.top + Math.min(72, Math.max(34, heroBounds.height * 0.12))
-      : fallbackTop;
-    const startLeft = Math.min(
-      window.innerWidth - labelBounds.width - safeGap,
-      Math.max(safeGap, toggleBounds.right - labelBounds.width - 14)
-    );
-
-    label.style.left = `${startLeft}px`;
-    label.style.top = `${Math.max(toggleBounds.bottom + 12, startTop)}px`;
-  };
-
-  const finishAnimation = () => {
-    label.remove();
-    window.setTimeout(() => {
-      toggle.classList.remove("menu-toggle--is-absorbing");
-    }, 360);
-  };
-
-  const setAbsorbTargets = () => {
-    const toggleBounds = toggle.getBoundingClientRect();
-    const targetX = toggleBounds.left + toggleBounds.width / 2;
-    const targetY = toggleBounds.top + toggleBounds.height / 2;
-
-    label.querySelectorAll("span").forEach((span) => {
-      const letterBounds = span.getBoundingClientRect();
-      span.style.setProperty("--suck-x", `${targetX - (letterBounds.left + letterBounds.width / 2)}px`);
-      span.style.setProperty("--suck-y", `${targetY - (letterBounds.top + letterBounds.height / 2)}px`);
-    });
-  };
-
-  const dropLetters = () => {
-    if (hasDropped) return;
-    hasDropped = true;
-    window.clearTimeout(dropTimer);
-    setAbsorbTargets();
-    toggle.classList.add("menu-toggle--is-absorbing");
-    label.classList.add("is-dropping");
-    window.removeEventListener("resize", positionLabel);
-    window.removeEventListener("scroll", positionLabel);
-    window.removeEventListener("scroll", dropLetters);
-    window.setTimeout(finishAnimation, 1320);
-  };
-
-  positionLabel();
-  requestAnimationFrame(() => label.classList.add("is-visible"));
-  window.addEventListener("resize", positionLabel);
-  window.addEventListener("scroll", positionLabel, { passive: true });
-  window.addEventListener("scroll", dropLetters, { once: true, passive: true });
-  dropTimer = window.setTimeout(dropLetters, 3000);
-})();
-
-(function initLanguagePrompt() {
-  const pageLang = document.documentElement.lang || "fr";
-  if (!pageLang.toLowerCase().startsWith("fr")) return;
-
-  const browserLang = (navigator.languages && navigator.languages[0]) || navigator.language || "";
-  if (!browserLang || browserLang.toLowerCase().startsWith("fr")) return;
-
-  try {
-    if (sessionStorage.getItem("languagePromptDismissed") === "1") return;
-  } catch (error) {
-    // Storage can be disabled; the prompt still works without persistence.
-  }
-
-  const pageName = window.location.pathname.split("/").pop();
-  const languagePath = pageName && pageName !== "index.html" ? pageName : "";
-  const baseUrl = `${window.location.origin}/`;
-  const englishHref = new URL(`en/${languagePath}`, baseUrl).href;
-  const spanishHref = new URL(`es/${languagePath}`, baseUrl).href;
-  const isSpanishPreferred = browserLang.toLowerCase().startsWith("es");
-  const languageLinks = isSpanishPreferred
-    ? `
-        <a href="${spanishHref}" lang="es" hreflang="es"><span aria-hidden="true">🇪🇸</span> Español</a>
-        <a href="${englishHref}" lang="en" hreflang="en"><span aria-hidden="true">🇬🇧</span> English</a>
-      `
-    : `
-        <a href="${englishHref}" lang="en" hreflang="en"><span aria-hidden="true">🇬🇧</span> English</a>
-        <a href="${spanishHref}" lang="es" hreflang="es"><span aria-hidden="true">🇪🇸</span> Español</a>
-      `;
-
-  const prompt = document.createElement("section");
-  prompt.className = "language-prompt";
-  prompt.setAttribute("role", "dialog");
-  prompt.setAttribute("aria-modal", "true");
-  prompt.setAttribute("aria-labelledby", "languagePromptTitle");
-  prompt.innerHTML = `
-    <article class="language-prompt-card">
-      <h2 id="languagePromptTitle">Choose your language</h2>
-      <p>This site is available in English and Spanish. Select a version to continue.</p>
-      <div class="language-prompt-actions">
-        ${languageLinks}
-      </div>
-      <button class="language-prompt-close" type="button">Continue in French</button>
-    </article>
-  `;
-
-  const closePrompt = () => {
-    prompt.hidden = true;
-    try {
-      sessionStorage.setItem("languagePromptDismissed", "1");
-    } catch (error) {
-      // Ignore storage errors.
-    }
-  };
-
-  prompt.querySelector(".language-prompt-close").addEventListener("click", closePrompt);
-  prompt.addEventListener("click", (event) => {
-    if (event.target === prompt) closePrompt();
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !prompt.hidden) closePrompt();
-  });
-
-  document.body.appendChild(prompt);
 })();
 
 (function initReviews() {
@@ -300,6 +141,75 @@ const REVIEWS_DATA = [
     },
     true
   );
+})();
+
+(function initMenuExplorer() {
+  const explorer = document.querySelector(".menu-explorer");
+  if (!explorer) return;
+
+  const buttons = Array.from(explorer.querySelectorAll("[data-menu-filter]"));
+  const categories = Array.from(explorer.querySelectorAll("[data-menu-category]"));
+  const categoryNav = explorer.querySelector(".menu-category-nav");
+  if (!buttons.length || !categories.length) return;
+
+  const categoryIds = new Set(categories.map((category) => category.id));
+
+  const setActiveCategory = (categoryId, options = {}) => {
+    if (!categoryIds.has(categoryId)) return;
+
+    buttons.forEach((button) => {
+      const isActive = button.dataset.menuFilter === categoryId;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-selected", String(isActive));
+      button.tabIndex = isActive ? 0 : -1;
+      if (isActive && categoryNav) {
+        const centeredLeft = button.offsetLeft - (categoryNav.clientWidth - button.offsetWidth) / 2;
+        categoryNav.scrollTo({ left: centeredLeft, behavior: options.animateNav ? "smooth" : "auto" });
+      }
+    });
+
+    categories.forEach((category) => {
+      const isActive = category.id === categoryId;
+      category.hidden = !isActive;
+      category.setAttribute("aria-hidden", String(!isActive));
+    });
+
+    if (options.updateUrl) {
+      window.history.replaceState(null, "", `#${categoryId}`);
+    }
+
+    if (options.scrollToMenu) {
+      explorer.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  buttons.forEach((button, index) => {
+    button.addEventListener("click", () => {
+      setActiveCategory(button.dataset.menuFilter, { updateUrl: true, scrollToMenu: true, animateNav: true });
+    });
+
+    button.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const nextIndex = (index + direction + buttons.length) % buttons.length;
+      const nextButton = buttons[nextIndex];
+      setActiveCategory(nextButton.dataset.menuFilter, { updateUrl: true, animateNav: true });
+      nextButton.focus();
+    });
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    const categoryId = link.getAttribute("href").slice(1);
+    if (!categoryIds.has(categoryId)) return;
+    link.addEventListener("click", () => setActiveCategory(categoryId));
+  });
+
+  const initialCategory = categoryIds.has(window.location.hash.slice(1))
+    ? window.location.hash.slice(1)
+    : buttons[0].dataset.menuFilter;
+
+  setActiveCategory(initialCategory);
 })();
 
 (function initProductDetails() {
@@ -392,7 +302,7 @@ const REVIEWS_DATA = [
 
   const openModal = (card) => {
     const cardImage = card.querySelector("img");
-    const cardTitle = card.querySelector("h2");
+    const cardTitle = card.querySelector("h2, h4");
     const cardPrice = card.hasAttribute("data-no-price") ? null : card.querySelector("p");
 
     if (!cardTitle) return;
@@ -427,7 +337,7 @@ const REVIEWS_DATA = [
   cards.forEach((card) => {
     card.setAttribute("tabindex", "0");
     card.setAttribute("role", "button");
-    card.setAttribute("aria-label", copy.viewDetails(card.querySelector("h2")?.textContent.trim()));
+    card.setAttribute("aria-label", copy.viewDetails(card.querySelector("h2, h4")?.textContent.trim()));
     card.addEventListener("click", () => openModal(card));
     card.addEventListener("keydown", (event) => {
       if (event.key !== "Enter" && event.key !== " ") return;
